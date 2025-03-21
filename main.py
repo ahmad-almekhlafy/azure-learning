@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 import pyodbc
 from fastapi.responses import HTMLResponse
-import os
-
+from azure.appconfiguration.provider import load
 app = FastAPI()
 
 def connect():
-    return pyodbc.connect(os.getenv("SQLAZURECONNSTR_AZURE_SQL_CONNECTIONSTRING"))
+    config = load(connection_string="Endpoint=https://learningapp4000con.azconfig.io;Id=1i9U;Secret=ztfpPhi4UGzaTK3qpHEMs0ypXcrfc9JHkcxzkInOgxlfUhyrEyKPJQQJ99BCACi5YpzMNsX2AAACAZACeCa0")
+    return pyodbc.connect(config["AZURE_SQL_CONNECTIONSTRING"])
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():

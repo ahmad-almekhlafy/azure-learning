@@ -19,7 +19,7 @@ def read_root():
     db.close()
     
     # Generate HTML table
-    html = "<table><tr>"
+    html = "<table border=1><tr>"
     html += "".join(f"<th>{col}</th>" for col in columns)
     html += "</tr>"
     for row in rows:

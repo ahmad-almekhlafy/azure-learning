@@ -8,7 +8,7 @@ app = FastAPI()
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():
-    config = load(connection_string="Endpoint=https://learningapp4000con.azconfig.io;Id=1i9U;Secret=ztfpPhi4UGzaTK3qpHEMs0ypXcrfc9JHkcxzkInOgxlfUhyrEyKPJQQJ99BCACi5YpzMNsX2AAACAZACeCa0")
+    config = load(feature_flag_enabled=True, connection_string="Endpoint=https://learningapp4000con.azconfig.io;Id=1i9U;Secret=ztfpPhi4UGzaTK3qpHEMs0ypXcrfc9JHkcxzkInOgxlfUhyrEyKPJQQJ99BCACi5YpzMNsX2AAACAZACeCa0")
     featureManager = FeatureManager(config)
     db =  pyodbc.connect(config["AZURE_SQL_CONNECTIONSTRING"])
 
@@ -20,7 +20,7 @@ def read_root():
     db.close()
     
     # Generate HTML table
-    html = "<table border=" + 1 if featureManager.is_enabled("border") else 0 + "><tr>"
+    html = "<table" + (" border=1>" if featureManager.is_enabled("border") else ">") + "<tr>"
     html += "".join(f"<th>{col}</th>" for col in columns)
     html += "</tr>"
     for row in rows:
